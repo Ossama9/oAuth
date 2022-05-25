@@ -1,0 +1,26 @@
+## On cree notre compte chez le provider (exemple facebook)
+POST http://localhost:8080/register
+Content-Type: application/x-www-form-urlencoded
+
+name=MonApp2&url=http://localhost:8080&redirect_uri=http://localhost:8080/callback
+
+#######################################
+##        Authorization_code         ##
+#######################################
+### Lien vers modal d'approbation
+## lien qui se cache sur le button quand on veut se connecter avec facebook
+GET http://localhost:8080/auth?response_type=code&client_id=628de9cf90b51&redirect_uri=http://localhost:8080/callback&scope=read&state=xyz
+
+### Retour de modal => resultat redirige vers redirect_uri
+## le lien qui se cache si le user clique sur OUI
+GET http://localhost:8080/auth-success?client_id=628de739f08b1&state=xyz
+
+### Exchange code with token
+
+GET http://localhost:8080/token?client_id=628de9cf90b51&client_secret=628de9cf90b54&code=2897f9c1a8ba082c6009ab89d084060d&grant_type=authorization_code&redirect_uri=http://localhost:8080/callback
+
+#######################################
+##         Get User Profile          ##
+#######################################
+GET http://localhost:8080/me
+Authorization: Bearer 2897f9c1a8ba082c6009ab89d084060d
